@@ -2,30 +2,40 @@
 <html>
 <head>
 	<title></title>
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-<h1>Canvas Template</h1>
-	<div id="gameContainer">
+<h1>EMDR Bar</h1>
+	<div id="screenContainer">
 	  <canvas
-	     id="gameCanvas"
+	     id="screenCanvas"
 	     width="800"
 	     height="600"
 	  />
 	</div>
-	<div id="buttons">
-		<!-- <button onClick="startStop()">Start</button> -->
-		<button type="button" id="start-stop" class="btn btn-lg btn-primary">Start/Stop</button>
-		<!-- <button type="button" id="change-color" class="btn btn-lg btn-primary">Change Color</button> -->
-		<label for="colors">Ball Color:</label>
-
-		<!-- Color dropdown -->
-		<select id="colors"></select>
+	
+	<div class="button-container">
 		
+		<!-- Background Color dropdown -->
+		<label for="background-color">Background Color:</label>
+		<select id="background-color"></select>
+		
+		<!-- Ball Color dropdown -->
+		<label for="ball-color">Ball Color:</label>
+		<select id="ball-color"></select>
+		
+		<button type="button" id="start-stop" class="btn btn-lg btn-primary">Start/Stop</button>
+		
+
+
 		<!-- Repitition input -->
 		<label for="repetitions">Repetitions</label>
   		<input type="text" id="repetitions">
+		
 	</div>
+
+	
 	<script src="script.js"></script>
 </body>
 </html>

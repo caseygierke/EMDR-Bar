@@ -1,16 +1,21 @@
 // TO DO
-// Add stop start button
-// Make start/stop in middle
+// DONE Add stop start button
+// DONE Make start/stop in middle
 // Make options for 
-      // counting down repetions or 
+      // DONE counting down repetions or 
       // by time
 // Make dropdown for speed
 // DONE Make dropdown for ball color
-// Make dropdown for background color
+// DONE Make dropdown for background color
+// Make custom settings dropdown
+      // Specify speed and number of passes
+      // Safe place 12 slow
+// Make two balls
 
 window.onload = function() {
     document.getElementById("start-stop").addEventListener("click", startStop);
-    document.getElementById("colors").addEventListener("change", changeColor);
+    document.getElementById("background-color").addEventListener("change", changeBackgroundColor);
+    document.getElementById("ball-color").addEventListener("change", changeColor);
     document.getElementById("repetitions").addEventListener("change", changeReps);
 }
 
@@ -18,15 +23,40 @@ window.onload = function() {
 // global variables that will be loaded/initialized later
 let canvas, ctx, ball
 let move = false;
-let repetitions = 15;
+let repetitions = 30;
 let speed = 15;
+// Define color
+color = 'blue';
+backgroundColor = 'black';
 
 // runs once at the beginning
 // loads any data and kickstarts the loop
 function init () {
   
-  var select = document.getElementById("colors"); 
+  // Create dropdown for background color options
+  var select = document.getElementById("background-color"); 
   var colors = ['red', 'blue', 'green', 'white', 'black', 'purple'];
+  
+  // Enhanced/ More pythonic approach to for loop
+  colors.forEach(function (color){
+      var opt = color;
+      var el = document.createElement("option");
+      el.textContent = opt;
+      el.value = opt;
+      select.appendChild(el);
+  });
+
+  // // Typical javascript approach to loop
+  // for (var i = 0; i < colors.length; i++) {
+  //     var opt = colors[i];
+  //     var el = document.createElement("option");
+  //     el.textContent = opt;
+  //     el.value = opt;
+  //     select.appendChild(el);
+  // }​
+
+  // Create dropdown for ball color options
+  var select = document.getElementById("ball-color"); 
 
   // Enhanced/ More pythonic approach to for loop
   colors.forEach(function (color){
@@ -37,28 +67,21 @@ function init () {
       select.appendChild(el);
   });
   
-  // // Typical javascript approach to loop
-  // for (var i = 0; i < colors.length; i++) {
-  //     var opt = colors[i];
-  //     var el = document.createElement("option");
-  //     el.textContent = opt;
-  //     el.value = opt;
-  //     select.appendChild(el);
-  // }​
-
   // Edit here for full screen
-  canvas = document.getElementById("gameCanvas");
+  canvas = document.getElementById("screenCanvas");
+  
   //document.width is obsolete
   canvas.width = document.body.clientWidth; 
   //document.height is obsolete
-  canvas.height = document.body.clientHeight; 
+  canvas.height = document.body.clientHeight*0.85; 
   canvasW = canvas.width;
   canvasH = canvas.height;
 
   if( canvas.getContext ) {}
 
+  // Create ctx object
   ctx = canvas.getContext('2d')
-  
+
   // starting objects
   ball = {
     // bounce: 0.75, // energy lost on bounce (25%)
@@ -73,14 +96,16 @@ function init () {
   window.requestAnimationFrame(update)
 }
 
-// Define color
-color = 'blue'
 // draws stuff to the screen
 // allows us to separate calculations and drawing
 function draw () {
   // clear the canvas and redraw everything
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
+  // Define background color
+  ctx.fillStyle = backgroundColor;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);  
+  
   // draw the ball (only object in this scene)
   ctx.beginPath()
   ctx.fillStyle = color
@@ -158,8 +183,11 @@ function startStop() {
 }
 
 function changeColor() {
-  color = document.getElementById("colors").value;
+  color = document.getElementById("ball-color").value;
+}
 
+function changeBackgroundColor() {
+  backgroundColor = document.getElementById("background-color").value;
 }
 
 function changeReps() {
