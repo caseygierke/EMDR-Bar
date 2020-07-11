@@ -1,10 +1,11 @@
 // TO DO
 // DONE Add stop start button
+// Make start stop button sit in middle
 // DONE Make start/stop in middle
 // Make options for 
       // DONE counting down repetions or 
       // by time
-// Make dropdown for speed
+// DONE Make dropdown for speed
 // DONE Make dropdown for ball color
 // DONE Make dropdown for background color
 // Make custom settings dropdown
@@ -16,6 +17,7 @@ window.onload = function() {
     document.getElementById("start-stop").addEventListener("click", startStop);
     document.getElementById("background-color").addEventListener("change", changeBackgroundColor);
     document.getElementById("ball-color").addEventListener("change", changeColor);
+    document.getElementById("speed").addEventListener("change", changeSpeed);
     document.getElementById("repetitions").addEventListener("change", changeReps);
 }
 
@@ -27,7 +29,7 @@ let repetitions = 30;
 let speed = 15;
 // Define color
 color = 'blue';
-backgroundColor = 'black';
+backgroundColor = 'grey';
 
 // runs once at the beginning
 // loads any data and kickstarts the loop
@@ -35,7 +37,7 @@ function init () {
   
   // Create dropdown for background color options
   var select = document.getElementById("background-color"); 
-  var colors = ['red', 'blue', 'green', 'white', 'black', 'purple'];
+  var colors = ['Grey', 'Red', 'Blue', 'Green', 'White', 'Black', 'Purple'];
   
   // Enhanced/ More pythonic approach to for loop
   colors.forEach(function (color){
@@ -57,10 +59,24 @@ function init () {
 
   // Create dropdown for ball color options
   var select = document.getElementById("ball-color"); 
-
+  var colors = ['Blue', 'Grey', 'Red', 'Green', 'White', 'Black', 'Purple'];
+  
   // Enhanced/ More pythonic approach to for loop
   colors.forEach(function (color){
       var opt = color;
+      var el = document.createElement("option");
+      el.textContent = opt;
+      el.value = opt;
+      select.appendChild(el);
+  });
+  
+  // Create dropdown for speeds
+  var select = document.getElementById("speed"); 
+  var speeds = ['Medium', 'Low', 'High']
+
+  // Enhanced/ More pythonic approach to for loop
+  speeds.forEach(function (speed){
+      var opt = speed;
       var el = document.createElement("option");
       el.textContent = opt;
       el.value = opt;
@@ -175,15 +191,33 @@ function startStop() {
     move = true;
     console.log('move changed to ',move)
     ball.velX = speed;
+    document.getElementById("start-stop").innerText = 'Stop'
   }
   else {
     move = false;
     console.log('move changed to ',move)
+    document.getElementById("start-stop").innerText = 'Start'
   }
 }
 
 function changeColor() {
   color = document.getElementById("ball-color").value;
+}
+
+function changeSpeed() {
+  selection = document.getElementById("speed").value;
+  if (selection == 'Low') {
+    speed = 5;
+    ball.velX = speed;
+  } 
+  if (selection == 'High') {
+    speed = 25;
+    ball.velX = speed;
+  }
+  if (selection == 'Medium') {
+    speed = 15;
+    ball.velX = speed;
+  }
 }
 
 function changeBackgroundColor() {
