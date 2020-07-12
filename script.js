@@ -11,7 +11,7 @@
 // Make custom settings dropdown
       // Specify speed and number of passes
       // Safe place 12 slow
-// Make two balls
+// DONE Make two balls
 
 window.onload = function() {
     document.getElementById("start-stop").addEventListener("click", startStop);
@@ -107,6 +107,14 @@ function init () {
     velX: 0,
     velY: 0
   }
+  ball2 = {
+    // bounce: 0.75, // energy lost on bounce (25%)
+    radius: 30,
+    x: canvas.width / 2 + ball.radius*2,
+    y: canvas.height / 2,
+    velX: 0,
+    velY: 0
+  }
 
   // begin update loop
   window.requestAnimationFrame(update)
@@ -130,6 +138,11 @@ function draw () {
     ball.radius,
     0, Math.PI * 2
   )
+  ctx.arc(
+    ball2.x, ball2.y,
+    ball2.radius,
+    0, Math.PI * 2
+  )
   ctx.fill()
 }
 
@@ -143,13 +156,17 @@ function update () {
 
   // left bound
   if (ball.x - ball.radius <= 0) {
-    ball.velX = -ball.velX
+    ball.velX = -ball.velX;
+    ball2.velX = ball.velX;
     ball.x = ball.radius
+    ball2.x = ball.radius*3
   }
   // right bound
   if (ball.x + ball.radius >= canvas.width) {
     ball.velX = -ball.velX;
-    ball.x = canvas.width - ball.radius;
+    ball2.velX = ball.velX;
+    ball.x = canvas.width - 3*ball.radius;
+    ball2.x = canvas.width - ball.radius;
   }
 
   // Count repetitions
@@ -168,7 +185,8 @@ function update () {
   if (move == false) {
     if (ball.velX > 0) {
       if (ball.x < (canvas.width/2)+ball.velX/2 && ball.x > (canvas.width/2)-ball.velX/2) {
-        ball.velX = 0
+        ball.velX = 0;
+        ball2.velX = 0;
         // move = false;
         // console.log(repetitions);
         // repetitions --;
@@ -177,6 +195,7 @@ function update () {
   }
   // update ball position
   ball.x += ball.velX;
+  ball2.x += ball2.velX;
   // draw after logic/calculations
   draw()
 }
@@ -191,6 +210,7 @@ function startStop() {
     move = true;
     console.log('move changed to ',move)
     ball.velX = speed;
+    ball2.velX = speed;
     document.getElementById("start-stop").innerText = 'Stop'
   }
   else {
@@ -209,14 +229,17 @@ function changeSpeed() {
   if (selection == 'Low') {
     speed = 5;
     ball.velX = speed;
+    ball2.velX = speed;
   } 
   if (selection == 'High') {
     speed = 25;
     ball.velX = speed;
+    ball2.velX = speed;
   }
   if (selection == 'Medium') {
     speed = 15;
     ball.velX = speed;
+    ball2.velX = speed;
   }
 }
 
