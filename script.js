@@ -12,6 +12,8 @@
       // Specify speed and number of passes
       // Safe place 12 slow
 // DONE Make two balls
+// Make speed change continue left
+// DONE Make right side bounce more smooth
 
 window.onload = function() {
     document.getElementById("start-stop").addEventListener("click", startStop);
@@ -26,7 +28,7 @@ window.onload = function() {
 let canvas, ctx, ball
 let move = false;
 let repetitions = 30;
-let speed = 15;
+let speed = 10;
 // Define color
 color = 'blue';
 backgroundColor = 'grey';
@@ -162,7 +164,7 @@ function update () {
     ball2.x = ball.radius*3
   }
   // right bound
-  if (ball.x + ball.radius >= canvas.width) {
+  if (ball2.x + ball.radius >= canvas.width) {
     ball.velX = -ball.velX;
     ball2.velX = ball.velX;
     ball.x = canvas.width - 3*ball.radius;
@@ -172,7 +174,7 @@ function update () {
   // Count repetitions
   if (repetitions > 0) {
     if (ball.x < (canvas.width/2)+ball.velX/2 && ball.x > (canvas.width/2)-ball.velX/2) {
-      console.log(repetitions);
+      // console.log(repetitions);
       repetitions --;
     }
   }
@@ -205,17 +207,20 @@ document.addEventListener('DOMContentLoaded', init)
 
 // Define startStop
 function startStop() {
-  console.log('clicked');
+  // console.log('clicked');
   if (move == false) {
     move = true;
-    console.log('move changed to ',move)
+    // console.log('move changed to ',move)
+    if (ball.velX < 0) {
+      speed = -speed
+    }
     ball.velX = speed;
     ball2.velX = speed;
     document.getElementById("start-stop").innerText = 'Stop'
   }
   else {
     move = false;
-    console.log('move changed to ',move)
+    // console.log('move changed to ',move)
     document.getElementById("start-stop").innerText = 'Start'
   }
 }
@@ -227,17 +232,26 @@ function changeColor() {
 function changeSpeed() {
   selection = document.getElementById("speed").value;
   if (selection == 'Low') {
-    speed = 5;
+    speed = 6;
+    if (ball.velX < 0) {
+      speed = -speed
+    }
     ball.velX = speed;
     ball2.velX = speed;
   } 
   if (selection == 'High') {
-    speed = 25;
+    speed = 15;
+    if (ball.velX < 0) {
+      speed = -speed
+    }
     ball.velX = speed;
     ball2.velX = speed;
   }
   if (selection == 'Medium') {
-    speed = 15;
+    speed = 10;
+    if (ball.velX < 0) {
+      speed = -speed
+    }
     ball.velX = speed;
     ball2.velX = speed;
   }
@@ -249,5 +263,5 @@ function changeBackgroundColor() {
 
 function changeReps() {
   repetitions = document.getElementById("repetitions").value;
-  console.log(repetitions);
+  // console.log(repetitions);
 }
